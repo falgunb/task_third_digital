@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:task_third_digital/model/user_model.dart';
 import 'package:task_third_digital/ui/add_student_screen.dart';
 
 class SecondScreen extends StatefulWidget {
@@ -11,29 +10,14 @@ class SecondScreen extends StatefulWidget {
 }
 
 class _SecondScreenState extends State<SecondScreen> {
-  List? _list;
-
-  final _fireStore = FirebaseFirestore.instance;
-
-  Future<void> getData() async {
-    var myData = _fireStore
-        .collection('students')
-        .doc('1234')
-        .collection('studentList')
-        .get()
-        .then((value){
-          setState(() {
-            _list!.add(value);
-          });
-
-    });
-
-    print("all Data ${myData}");
-  }
+  final Stream<QuerySnapshot> studentStream = FirebaseFirestore.instance
+      .collection("students")
+      .doc("1234")
+      .collection("studentList")
+      .snapshots();
 
   @override
   void initState() {
-    getData();
     super.initState();
   }
 
@@ -45,42 +29,81 @@ class _SecondScreenState extends State<SecondScreen> {
         title: const Text("Students List"),
         centerTitle: true,
       ),
-      body: ListView.builder(
-          shrinkWrap: true,
-          scrollDirection: Axis.vertical,
-          itemCount: _list!.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Card(
-                color: Colors.cyanAccent[90],
-                elevation: 2.0,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      FlutterLogo(
-                        size: 70,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(_list![index]['name'] ?? ""),
-                          Text(_list![index]['subA'] ?? ""),
-                          Text(_list![index]['subB'] ?? ""),
-                          Text(_list![index]['subC'] ?? ""),
-                        ],
-                      ),
-                    ],
-                  ),
-                ));
-          }),
+      body: StreamBuilder(
+        stream: studentStream,
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return const Text("Something got wrong..");
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          // print("data ${snapshot.data!.docChanges[1].doc['name']}");
+          return Container(
+            width: double.infinity,
+            decoration:
+                BoxDecoration(borderRadius: BorderRadius.circular(12.0)),
+            child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: snapshot.data?.docs.length,
+                itemBuilder: (BuildContext context, int index) {
+                  int total;
+                  total = int.parse(snapshot.data!.docs[index]['subA']) +
+                      int.parse(snapshot.data!.docs[index]['subB']) + int.parse(snapshot.data!.docs[index]['subC']);
+                  var percentage = (total/(300.0))*100;
+                  print(percentage.toString());
+                  return GestureDetector(
+                    onTap: (){
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AddStudentScreen(data: snapshot.data!.docs[index],)));
+                    },
+                    child: Card(
+                        color: Colors.cyanAccent[90],
+                        elevation: 2.0,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: const FlutterLogo(
+                                  size: 70,
+                                ),
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(snapshot.data!.docs[index]['name']),
+                                    Text(snapshot.data!.docs[index]['subA']),
+                                    Text(snapshot.data!.docs[index]['subB']),
+                                    Text(snapshot.data!.docs[index]['subC']),
+                                  ],
+                                ),
+                              ),
+                              Expanded(flex: 1,child: Text("Out of 300 is ${percentage.toStringAsFixed(2)}"))
+                            ],
+                          ),
+                        )),
+                  );
+                }),
+          );
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const AddStudentScreen()));
+                  builder: (context) => AddStudentScreen()));
         },
         child: const Icon(Icons.add),
         backgroundColor: Colors.orangeAccent,
