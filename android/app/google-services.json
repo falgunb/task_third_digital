@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "208792023616",
+    "project_id": "task-3rd-digital",
+    "storage_bucket": "task-3rd-digital.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:208792023616:android:301ba472d6216308fa25a5",
+        "android_client_info": {
+          "package_name": "com.task.task_third_digital"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "208792023616-nhf4sr5fnlfidt4dq651041a7quvqvsf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCs5hpDUjr_KUynwbIgnO5NBhtnT1vT3Qc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "208792023616-nhf4sr5fnlfidt4dq651041a7quvqvsf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
