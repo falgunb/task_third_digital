@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:task_third_digital/data/firebase.dart';
 import 'package:task_third_digital/ui/second_screen.dart';
@@ -155,6 +156,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                                 padding: EdgeInsets.only(
                                     left: 15, right: 15, top: 5),
                                 child: TextFormField(
+                                    keyboardType: TextInputType.number,
                                     controller: subACtrl,
                                     // initialValue: widget.data!['subA'],
                                     expands: false,
@@ -179,6 +181,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                                 padding: EdgeInsets.only(
                                     left: 15, right: 15, top: 5),
                                 child: TextFormField(
+                                    keyboardType: TextInputType.number,
                                     controller: subBCtrl,
                                     // initialValue: widget.data!['subB'],
                                     expands: false,
@@ -203,6 +206,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                                 padding: EdgeInsets.only(
                                     left: 15, right: 15, top: 5),
                                 child: TextFormField(
+                                  keyboardType: TextInputType.number,
                                     controller: subCCtrl,
                                     // initialValue: widget.data!['subC'],
                                     expands: false,
@@ -334,6 +338,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                                 padding: EdgeInsets.only(
                                     left: 15, right: 15, top: 5),
                                 child: TextFormField(
+                                    keyboardType: TextInputType.number,
                                     controller: subACtrl,
                                     expands: false,
                                     validator: (value) {
@@ -357,6 +362,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                                 padding: EdgeInsets.only(
                                     left: 15, right: 15, top: 5),
                                 child: TextFormField(
+                                    keyboardType: TextInputType.number,
                                     controller: subBCtrl,
                                     expands: false,
                                     validator: (value) {
@@ -380,6 +386,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                                 padding: EdgeInsets.only(
                                     left: 15, right: 15, top: 5),
                                 child: TextFormField(
+                                    keyboardType: TextInputType.number,
                                     controller: subCCtrl,
                                     expands: false,
                                     validator: (value) {
